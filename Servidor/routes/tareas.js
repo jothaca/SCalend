@@ -25,14 +25,27 @@ router.post('/crear',function(req, res, next){
     titulo,
     descripcion,
     grado,
-    materia
+    materia,
+    tema,
+    logros,
+    archivo,
+    fecha_culminacion,
+    color_texto,
+    color_fondo
   } = req.body;
 
   model.Tarea.create({
     titulo:titulo,
     descripcion:descripcion,
     grado:grado,
-    materia:materia
+    materia:materia,
+    tema:tema,
+    logros:logros,
+    grado:grado,
+    color_fondo:color_fondo,
+    color_texto:color_texto,
+    archivo:archivo
+
   })
   .then(tarea => res.status(201).json({
       error : false,

@@ -22,13 +22,23 @@
 
 
       //Recolecta los datos(titulo,descripcion,grado,materia) de la tarea y llama a la funcion  relizarpetición para crear una nueva tarea en la BD.
-      function crearTarea(titulo,descripcion,grado,materia){
+      function crearTarea(titulo,descripcion,grado,materia,tema,logros,archivo,colorTexto,colorFondo,fechaCulminacion){
 
         var data = {};
         data.titulo = titulo;
         data.descripcion = descripcion;
         data.grado = grado;
         data.materia = materia;
+        data.tema = tema;
+        data.logros = logros;
+        data.archivo = archivo;
+        data.color_texto = colorTexto;
+        data.color_fondo =  colorFondo;
+        data.fecha_culminacion =  fechaCulminacion;
+
+
+
+
 
         realizarPeticion('http://localhost:3000/tareas/crear','POST',data);
 
@@ -299,40 +309,22 @@
       width: 400,
       modal: true,
       buttons: {
-        'Add Event': function() {
+        'Agregar Tarea': function() {
 
 
 
-          var what = jQuery.trim($("#what").val());
+          var titulo = jQuery.trim($("#titulo").val());
+          var tema = jQuery.trim($("#tema").val());
+          var descripcion = jQuery.trim($("#descripcion").val());
 
-          if (what == "") {
-            alert("Please enter a short event description into the \"what\" field.");
+          if (titulo == "" && tema == "" && descripcion == "") {
+
+            alert("Por favor ingrese los campos obligatorios de la tarea.");
+
           } else {
 
 
-            var startDate = $("#startDate").val();
-            var startDtArray = startDate.split("-");
-            var startYear = startDtArray[0];
-            // jquery datepicker months start at 1 (1=January)
-            var startMonth = startDtArray[1];
-            var startDay = startDtArray[2];
-            // strip any preceeding 0's
-            startMonth = startMonth.replace(/^[0]+/g, "");
-            startDay = startDay.replace(/^[0]+/g, "");
-            var startHour = jQuery.trim($("#startHour").val());
-            var startMin = jQuery.trim($("#startMin").val());
-            var startMeridiem = jQuery.trim($("#startMeridiem").val());
-            startHour = parseInt(startHour.replace(/^[0]+/g, ""));
-            if (startMin == "0" || startMin == "00") {
-              startMin = 0;
-            } else {
-              startMin = parseInt(startMin.replace(/^[0]+/g, ""));
-            }
-            if (startMeridiem == "AM" && startHour == 12) {
-              startHour = 0;
-            } else if (startMeridiem == "PM" && startHour < 12) {
-              startHour = parseInt(startHour) + 12;
-            }
+
 
             var endDate = $("#endDate").val();
             var endDtArray = endDate.split("-");
@@ -343,32 +335,26 @@
             // strip any preceeding 0's
             endMonth = endMonth.replace(/^[0]+/g, "");
 
-            endDay = endDay.replace(/^[0]+/g, "");
-            var endHour = jQuery.trim($("#endHour").val());
-            var endMin = jQuery.trim($("#endMin").val());
-            var endMeridiem = jQuery.trim($("#endMeridiem").val());
-            endHour = parseInt(endHour.replace(/^[0]+/g, ""));
-            if (endMin == "0" || endMin == "00") {
-              endMin = 0;
-            } else {
-              endMin = parseInt(endMin.replace(/^[0]+/g, ""));
-            }
-            if (endMeridiem == "AM" && endHour == 12) {
-              endHour = 0;
-            } else if (endMeridiem == "PM" && endHour < 12) {
-              endHour = parseInt(endHour) + 12;
-            }
+
 
             //alert("Start time: " + startHour + ":" + startMin + " " + startMeridiem + ", End time: " + endHour + ":" + endMin + " " + endMeridiem);
 
             // Dates use integers
-            var startDateObj = new Date(parseInt(startYear), parseInt(startMonth) - 1, parseInt(startDay), startHour, startMin, 0, 0);
-            var endDateObj = new Date(parseInt(endYear), parseInt(endMonth) - 1, parseInt(endDay), endHour, endMin, 0, 0);
+
+            //--titulo--
+            var endDateObj = new Date(parseInt(endYear), parseInt(endMonth) - 1, parseInt(endDay));
+            var endDate = parseInt(endYear)+"-"+parseInt(endMonth)-1+"-"+parseInt(endDay);
+            var colorBackground = $("#colorBackground").val();
+            var colorForeground = $("#colorForeground").val();
+            var logros = $("#logros").val();
+            var grado = $("#grado").val();
+            var materia = $("#materia").val();
 
 //-----------------
 
             //Realiza petición para crear una nueva tarea con sus respectiva información
-            crearTarea("Materia 333","MATERIA MUY DIFICIL","9","QUIMICA");
+
+            crearTarea(titulo,descripcion,grado,materia,tema,logros,"archivo",colorForeground,colorBackground,endDate)
 
 //-----------------
 
@@ -376,8 +362,8 @@
             // add new event to the calendar
             jfcalplugin.addAgendaItem(
               "#mycal",
-              what,
-              startDateObj,
+              titulo,
+              endDateObj,
               endDateObj,
               false, {
                 fname: "Santa",
@@ -458,7 +444,7 @@
         });
         //$("#colorForeground").val("#ffffff");
         // put focus on first form input element
-        $("#what").focus();
+        $("#titulo").focus();
       },
       close: function() {
         // reset form elements when we close so they are fresh when the dialog is opened again.
