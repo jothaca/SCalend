@@ -343,7 +343,7 @@
 
             //--titulo--
             var endDateObj = new Date(parseInt(endYear), parseInt(endMonth) - 1, parseInt(endDay));
-            var endDate = parseInt(endYear)+"-"+parseInt(endMonth)-1+"-"+parseInt(endDay);
+            var endDate = endYear+"-"+endMonth+"-"+endDay;
             var colorBackground = $("#colorBackground").val();
             var colorForeground = $("#colorForeground").val();
             var logros = $("#logros").val();

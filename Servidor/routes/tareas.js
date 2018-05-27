@@ -44,7 +44,8 @@ router.post('/crear',function(req, res, next){
     grado:grado,
     color_fondo:color_fondo,
     color_texto:color_texto,
-    archivo:archivo
+    archivo:archivo,
+    fecha_culminacion:fecha_culminacion
 
   })
   .then(tarea => res.status(201).json({
